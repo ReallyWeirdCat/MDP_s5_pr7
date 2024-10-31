@@ -1,5 +1,6 @@
 import pygame
-from config import COL_PRIMARY, COL_SECONDARY, COL_EXIT
+from config import COL_SECONDARY, COL_EXIT, VIEW_DIST
+
 
 class Cell:
 
@@ -12,9 +13,8 @@ class Cell:
 
     def draw(self, screen, player_pos):
 
-        # Only draw cells that are not farther than 5 cells from player_pos
-
-        if abs(self.x - player_pos[0]) < 100 and abs(self.y - player_pos[1]) < 100:
+        # Дальность прорисовки
+        if abs(self.x - player_pos[0]) < VIEW_DIST and abs(self.y - player_pos[1]) < VIEW_DIST:
             pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
         elif self.color is not COL_EXIT:
             pygame.draw.rect(screen, COL_SECONDARY, (self.x, self.y, self.width, self.height))

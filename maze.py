@@ -20,19 +20,19 @@ class Maze:
             cell = self.cells.pop(random.randint(0, len(self.cells) - 1))
             cell.color = COL_SECONDARY
 
-        # Place player
+        # Выбираем случайную клетку в массиве. Будем считать ее игроком
         self.player = random.choice(self.cells)
         self.player.color = COL_EXIT
         self.player_pos = self.player.x, self.player.y
 
-        # Place exit
+        # Случайная клетка с выходом
         self.exit = random.choice(self.cells)
         self.exit.color = COL_PLAYER
 
     def think(self):
         keys = pygame.key.get_pressed()
 
-        # Calculate the new position based on the current position and the key pressed
+        # Вычисляем, в какую клетку должен попасть игрок
         new_x, new_y = self.player.x, self.player.y
 
         if keys[pygame.K_LEFT] and self.player.x > 0:
@@ -44,17 +44,17 @@ class Maze:
         elif keys[pygame.K_DOWN] and self.player.y < SCR_HEIGHT - MAZE_SIZE:
             new_y += MAZE_SIZE
 
-        # Check if the new position is a wall
+        # Отменяем движение, если оно попадает в стену
         for cell in self.cells:
             if cell.x == new_x and cell.y == new_y:
-                if cell.color == COL_PRIMARY:  # Check if the cell is a wall
-                    return  # Do not move if it's a wall
+                if cell.color == COL_PRIMARY:
+                    return
 
-        # Check if player touches exit
+        # Завершаем игру, если игрок попадает в выход
         if self.exit.x == new_x and self.exit.y == new_y:
             pygame.quit()
 
-        # Update player position if the new position is valid
+        # Обновление позиции
         self.player.x, self.player.y = new_x, new_y
         self.player_pos = self.player.x, self.player.y
 
